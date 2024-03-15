@@ -5,14 +5,13 @@ services:
     image: postgres:14.2
     restart: always
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: test_db
+      POSTGRES_DB: ${POSTGRES_DB:-froullete}
+      POSTGRES_USER: ${POSTGRES_USER:-froullete}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-froullete}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}"
     volumes:
       - pg_data:/var/lib/postgresql/data/
-      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
 
   nxginx:
     depends_on:
@@ -37,6 +36,12 @@ services:
       - ./api:/api
     ports:
       - '3001:3000'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-froullete}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-froullete}
+      POSTGRES_DB: ${POSTGRES_DB:-froullete}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+      POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
 
   client:
     build:
