@@ -25,7 +25,7 @@ function getDatabaseOptions(): TypeOrmModuleOptions {
         password: getEnvValue('POSTGRES_PASSWORD'),
         database: getEnvValue('POSTGRES_DB'),
         type: 'postgres',
-        entities: []
+        entities: ['**/*.entity.ts'], // all files with .entity.ts suffix
     }
 }
 
