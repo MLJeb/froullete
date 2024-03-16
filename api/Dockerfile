@@ -9,4 +9,4 @@ COPY ./ ./
 
 RUN yarn
 
-CMD ["yarn", "start"]
+CMD yarn build && yarn migration:run && yarn start
