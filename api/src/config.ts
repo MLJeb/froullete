@@ -1,12 +1,12 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { DataSourceOptions } from "typeorm";
 
 // env path set to project's root folder path
 const path = require('path')
 const envFilePath = path.resolve(__dirname, '../../.env')
-
 require('dotenv').config({path: envFilePath});
 
-function getEnvValue(key: string, throwOnMissing = true): string {
+export function getEnvValue(key: string, throwOnMissing = true): string {
     const value = process.env[key];
     if (!value && throwOnMissing) {
         throw new Error(
@@ -25,7 +25,9 @@ function getDatabaseOptions(): TypeOrmModuleOptions {
         password: getEnvValue('POSTGRES_PASSWORD'),
         database: getEnvValue('POSTGRES_DB'),
         type: 'postgres',
-        entities: ['**/*.entity.ts'], // all files with .entity.ts suffix
+        entities: ['**/*.entity.js'], // all files with .entity.ts suffix
+        migrationsTableName: 'migrations',
+        migrationsRun: false,
     }
 }
 
