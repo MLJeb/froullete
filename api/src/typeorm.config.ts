@@ -7,7 +7,7 @@ require('dotenv').config({ path: envFilePath });
 
 console.log("a")
 export default new DataSource({
-    migrations: [path.resolve(__dirname, '../db/*ts')],
+    migrations: [path.resolve(__dirname, '../dist/db/*js')],
     migrationsTableName: 'migrations',
     host: getEnvValue('POSTGRES_HOST'),
     port: parseInt(process.env.POSTGRES_PORT, 10) || 5432,
