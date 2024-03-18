@@ -21,7 +21,7 @@ export class RoulletesService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     @InjectRepository(PropBasket)
-    private propBasket: Repository<PropBasket>,
+    private propBasketRepository: Repository<PropBasket>,
   ) {}
 
   async create(createRoulleteDto: CreateRoulleteDto) {
@@ -94,9 +94,9 @@ export class RoulletesService {
     user.credits -= roullete.price;
     await this.userRepository.save(user);
 
-    const result = await this.propBasket.update(
+    const result = await this.propBasketRepository.update(
       {
-        propSlug: slug,
+        propSlug: prop.slug,
         userId,
       },
       {
@@ -109,9 +109,9 @@ export class RoulletesService {
         'result': result
       }
     }
-    const basket = await this.propBasket.insert(
+    const basket = await this.propBasketRepository.insert(
       {
-        propSlug: slug,
+        propSlug: prop.slug,
         userId,
         quantity: 1
       }
