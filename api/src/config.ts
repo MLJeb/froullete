@@ -3,7 +3,6 @@ import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 // env path set to project's root folder path
 const path = require('path')
 const envFilePath = path.resolve(__dirname, '../../../.env')
-console.log(envFilePath)
 require('dotenv').config({path: envFilePath});
 
 export function getEnvValue(key: string, throwOnMissing = true): string {
@@ -33,5 +32,5 @@ function getDatabaseOptions(): TypeOrmModuleOptions {
 
 export default() => ({
     database: getDatabaseOptions(),
-    envFilePath
+    envFilePath,
 })

@@ -6,6 +6,10 @@ import { CreateRoulleteDto } from './dto/create-roullete.dto';
 import { UpdateRoulleteDto } from './dto/update-roullete.dto';
 import { RoulleteToProp } from './entities/roulleteToProp.entity';
 import { AddPropToRoulleteDTO } from './dto/add-prop-to-roullete.dto';
+import { User } from 'src/users/entities/user.entity';
+import weightedRandom from './utils/weightedRandoms';
+import { Prop } from 'src/props/entities/prop.entity';
+import { PropBasket } from 'src/users/entities/PropBasket.entity';
 
 @Injectable()
 export class RoulletesService {
@@ -13,7 +17,11 @@ export class RoulletesService {
     @InjectRepository(Roullete)
     private RoulleteRepository: Repository<Roullete>,
     @InjectRepository(RoulleteToProp)
-    private RTPRepository: Repository<RoulleteToProp>,
+    private rtpRepository: Repository<RoulleteToProp>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+    @InjectRepository(PropBasket)
+    private propBasket: Repository<PropBasket>,
   ) {}
 
   async create(createRoulleteDto: CreateRoulleteDto) {
@@ -24,8 +32,8 @@ export class RoulletesService {
    return this.RoulleteRepository.find();
   }
 
-  findOne(slug: string) {
-    return this.RoulleteRepository.findOneOrFail({
+  async findOne(slug: string) {
+    const roullete = await this.RoulleteRepository.findOneOrFail({
       where: {
         slug
       },
@@ -33,6 +41,7 @@ export class RoulletesService {
         "roulleteToProps.prop"
       ]
     });
+    return roullete;
   }
 
   update(slug: string, updateRoulleteDto: UpdateRoulleteDto) {
@@ -47,10 +56,71 @@ export class RoulletesService {
   }
 
   addProp(addPropToRoulleteDTO: AddPropToRoulleteDTO) {
-    return this.RTPRepository.insert(addPropToRoulleteDTO);
+    return this.rtpRepository.insert(addPropToRoulleteDTO);
   }
 
   removeProp(rtpID: number){
-    return this.RTPRepository.delete(rtpID);
+    return this.rtpRepository.delete(rtpID);
+  }
+
+  async play(slug: string, userId: number) {
+    const user = await this.userRepository.findOneOrFail({
+      where: { id: userId }
+    });
+
+    const roullete = await this.RoulleteRepository.findOneOrFail({
+      where: {
+        slug
+      },
+      relations: [
+        "roulleteToProps.prop"
+      ]
+    });
+
+    if ( roullete.price > user.credits ){
+      return {'message': 'You have not enough credits to play this roullete'}
+    }
+
+    const items = []
+    const weights = []
+
+    roullete.roulleteToProps.forEach(rtp => {
+      items.push(rtp.prop);
+      weights.push(rtp.weigth);
+    })
+
+    const prop = weightedRandom(items, weights).item as Prop
+   
+    user.credits -= roullete.price;
+    await this.userRepository.save(user);
+
+    const result = await this.propBasket.update(
+      {
+        propSlug: slug,
+        userId,
+      },
+      {
+        quantity: () => 'quantity + 1'
+      }
+    )
+    if(result.affected != 0){
+      return {
+        'message': `Congrats You have won a ${prop.readableName}`,
+        'result': result
+      }
+    }
+    const basket = await this.propBasket.create(
+      {
+        propSlug: slug,
+        userId,
+        quantity: 1
+      }
+    )
+    return {
+      'message': `Congrats You have won a ${prop.readableName}`,
+      'result': basket
+    }
+
+
   }
 }

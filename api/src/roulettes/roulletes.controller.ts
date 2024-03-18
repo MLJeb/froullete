@@ -43,4 +43,9 @@ export class RoulletesController {
   removeRoulleteToProp(@Param('rtpID') rtpID: number) {
     return this.RoulletesService.removeProp(rtpID);
   }
+
+  @Get(':slug/play/:userId')
+  play(@Param('slug') slug: string, @Param('userId') userId: number) {
+    return this.RoulletesService.play(slug, userId);
+  }
 }

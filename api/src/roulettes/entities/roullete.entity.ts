@@ -1,7 +1,8 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { AfterLoad, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { RoulleteToProp } from "./roulleteToProp.entity";
 import { Exclude, Expose } from "@nestjs/class-transformer";
 import { Prop } from "src/props/entities/prop.entity";
+import { IsArray, IsInt, Min } from "class-validator";
 
 
 @Entity({ name: 'roulletes' })
@@ -12,14 +13,16 @@ export class Roullete {
     @Column()
     readableName: string;
 
-    @Exclude()
     @OneToMany(() => RoulleteToProp, roulleteToProp => roulleteToProp.roullete)
+    @Exclude()
     public roulleteToProps: RoulleteToProp[];
 
-    @Expose()
-    get props(): Prop[] {
-        return this.roulleteToProps.map( rtp => rtp.prop );
-    }
+    @IsArray()
+    props: Prop[];
       
+    @Column({default: 1})
+    @IsInt()
+    @Min(1)
+    price: number;
 }
 

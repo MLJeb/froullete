@@ -7,6 +7,7 @@ import { PropsModule } from './props/props.module';
 
 import getCustomOptions from './config';
 import { RoulletesModule } from './roulettes/roulletes.module';
+import { UsersModule } from './users/users.module';
 
 const options =  getCustomOptions();
 @Module({
@@ -16,7 +17,8 @@ const options =  getCustomOptions();
     }),
     TypeOrmModule.forRoot(options.database),
     PropsModule,
-    RoulletesModule
+    RoulletesModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,5 @@
 import { RoulleteToProp } from "src/roulettes/entities/roulleteToProp.entity";
+import { PropBasket } from "src/users/entities/PropBasket.entity";
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 
@@ -15,4 +16,7 @@ export class Prop {
 
     @OneToMany(() => RoulleteToProp, roulleteToProp => roulleteToProp.prop)
     public roulleteToProps: Promise<RoulleteToProp[]>;
+
+    @OneToMany(() => PropBasket, basket => basket.prop)
+    public baskets: Promise<PropBasket[]>;
 }
