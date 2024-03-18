@@ -109,7 +109,7 @@ export class RoulletesService {
         'result': result
       }
     }
-    const basket = await this.propBasket.create(
+    const basket = await this.propBasket.insert(
       {
         propSlug: slug,
         userId,
@@ -120,7 +120,5 @@ export class RoulletesService {
       'message': `Congrats You have won a ${prop.readableName}`,
       'result': basket
     }
-
-
   }
 }
