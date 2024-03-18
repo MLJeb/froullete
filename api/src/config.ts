@@ -1,5 +1,4 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { DataSourceOptions } from "typeorm";
 
 // env path set to project's root folder path
 const path = require('path')
