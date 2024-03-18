@@ -23,7 +23,8 @@ export class UsersService {
 
   async findOne(id: number) : Promise<User> {
     return await this.userRepository.findOneOrFail({
-      where: {id}
+      where: {id},
+      relations: ['propBaskets.prop']
     });
   }
 

@@ -2,7 +2,6 @@ import { IsInt, Min } from "class-validator";
 import { AfterLoad, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { PropBasket } from "./PropBasket.entity";
 import { Exclude } from "class-transformer";
-import { Expose } from "@nestjs/class-transformer";
 
 
 export const REWARD_COOLDOWN_IN_MS = 60000;
