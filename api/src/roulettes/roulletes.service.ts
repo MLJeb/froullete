@@ -29,26 +29,21 @@ export class RoulletesService {
   }
 
   findAll() {
-   return this.RoulleteRepository.find();
+    return this.RoulleteRepository.find();
   }
 
   async findOne(slug: string) {
     const roullete = await this.RoulleteRepository.findOneOrFail({
       where: {
-        slug
+        slug,
       },
-      relations: [
-        "roulleteToProps.prop"
-      ]
+      relations: ['roulleteToProps.prop'],
     });
     return roullete;
   }
 
   update(slug: string, updateRoulleteDto: UpdateRoulleteDto) {
-    return this.RoulleteRepository.update(
-      slug,
-      updateRoulleteDto
-    )
+    return this.RoulleteRepository.update(slug, updateRoulleteDto);
   }
 
   remove(slug: string) {
@@ -59,38 +54,36 @@ export class RoulletesService {
     return this.rtpRepository.insert(addPropToRoulleteDTO);
   }
 
-  removeProp(rtpID: number){
+  removeProp(rtpID: number) {
     return this.rtpRepository.delete(rtpID);
   }
 
   async play(slug: string, userId: number) {
     const user = await this.userRepository.findOneOrFail({
-      where: { id: userId }
+      where: { id: userId },
     });
 
     const roullete = await this.RoulleteRepository.findOneOrFail({
       where: {
-        slug
+        slug,
       },
-      relations: [
-        "roulleteToProps.prop"
-      ]
+      relations: ['roulleteToProps.prop'],
     });
 
-    if ( roullete.price > user.credits ){
-      return {'message': 'You have not enough credits to play this roullete'}
+    if (roullete.price > user.credits) {
+      return { message: 'You have not enough credits to play this roullete' };
     }
 
-    const items = []
-    const weights = []
+    const items = [];
+    const weights = [];
 
-    roullete.roulleteToProps.forEach(rtp => {
+    roullete.roulleteToProps.forEach((rtp) => {
       items.push(rtp.prop);
       weights.push(rtp.weigth);
-    })
+    });
 
-    const prop = weightedRandom(items, weights).item as Prop
-   
+    const prop = weightedRandom(items, weights).item as Prop;
+
     user.credits -= roullete.price;
     await this.userRepository.save(user);
 
@@ -100,25 +93,23 @@ export class RoulletesService {
         userId,
       },
       {
-        quantity: () => 'quantity + 1'
-      }
-    )
-    if(result.affected != 0){
+        quantity: () => 'quantity + 1',
+      },
+    );
+    if (result.affected != 0) {
       return {
-        'message': `Congrats You have won a ${prop.readableName}`,
-        'result': result
-      }
+        message: `Congrats You have won a ${prop.readableName}`,
+        result: result,
+      };
     }
-    const basket = await this.propBasketRepository.insert(
-      {
-        propSlug: prop.slug,
-        userId,
-        quantity: 1
-      }
-    )
+    const basket = await this.propBasketRepository.insert({
+      propSlug: prop.slug,
+      userId,
+      quantity: 1,
+    });
     return {
-      'message': `Congrats You have won a ${prop.readableName}`,
-      'result': basket
-    }
+      message: `Congrats You have won a ${prop.readableName}`,
+      result: basket,
+    };
   }
 }

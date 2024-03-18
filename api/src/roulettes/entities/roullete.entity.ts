@@ -1,28 +1,26 @@
-import { AfterLoad, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { RoulleteToProp } from "./roulleteToProp.entity";
-import { Exclude, Expose } from "@nestjs/class-transformer";
-import { Prop } from "src/props/entities/prop.entity";
-import { IsArray, IsInt, Min } from "class-validator";
-
+import { AfterLoad, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { RoulleteToProp } from './roulleteToProp.entity';
+import { Exclude, Expose } from '@nestjs/class-transformer';
+import { Prop } from 'src/props/entities/prop.entity';
+import { IsArray, IsInt, Min } from 'class-validator';
 
 @Entity({ name: 'roulletes' })
 export class Roullete {
-    @PrimaryColumn({ unique: true })
-    slug: string;
-    
-    @Column()
-    readableName: string;
+  @PrimaryColumn({ unique: true })
+  slug: string;
 
-    @OneToMany(() => RoulleteToProp, roulleteToProp => roulleteToProp.roullete)
-    @Exclude()
-    public roulleteToProps: RoulleteToProp[];
+  @Column()
+  readableName: string;
 
-    @IsArray()
-    props: Prop[];
-      
-    @Column({default: 1})
-    @IsInt()
-    @Min(1)
-    price: number;
+  @OneToMany(() => RoulleteToProp, (roulleteToProp) => roulleteToProp.roullete)
+  @Exclude()
+  public roulleteToProps: RoulleteToProp[];
+
+  @IsArray()
+  props: Prop[];
+
+  @Column({ default: 1 })
+  @IsInt()
+  @Min(1)
+  price: number;
 }
-

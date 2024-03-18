@@ -1,27 +1,33 @@
-import { Prop } from "src/props/entities/prop.entity"
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, Unique } from "typeorm"
-import { Roullete } from "./roullete.entity"
-import { MAX, Max, Min } from "class-validator"
+import { Prop } from 'src/props/entities/prop.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  Unique,
+} from 'typeorm';
+import { Roullete } from './roullete.entity';
+import { MAX, Max, Min } from 'class-validator';
 
-@Unique(["propSlug", "roulleteSlug"])
+@Unique(['propSlug', 'roulleteSlug'])
 @Entity()
 export class RoulleteToProp {
-    @PrimaryGeneratedColumn()
-    public id: number
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-    @Column()
-    public propSlug: string
+  @Column()
+  public propSlug: string;
 
-    @Column()
-    public roulleteSlug: string
+  @Column()
+  public roulleteSlug: string;
 
-    @Column({default: 10})
-    @Min(0)
-    public weigth: number;
+  @Column({ default: 10 })
+  @Min(0)
+  public weigth: number;
 
-    @ManyToOne(() => Prop, (prop) => prop.roulleteToProps)
-    public prop: Prop
+  @ManyToOne(() => Prop, (prop) => prop.roulleteToProps)
+  public prop: Prop;
 
-    @ManyToOne(() => Roullete, (roullete) => roullete.roulleteToProps)
-    public roullete: Roullete
+  @ManyToOne(() => Roullete, (roullete) => roullete.roulleteToProps)
+  public roullete: Roullete;
 }

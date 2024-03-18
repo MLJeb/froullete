@@ -1,12 +1,12 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
 export class CreatePropDto {
-    @IsString()
-    slug: string;
+  @IsString()
+  slug: string;
 
-    @IsString()
-    readableName: string;
+  @IsString()
+  readableName: string;
 
-    @IsString()
-    colour: string;
+  @IsString()
+  colour: string;
 }

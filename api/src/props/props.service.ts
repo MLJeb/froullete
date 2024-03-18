@@ -17,22 +17,19 @@ export class PropsService {
   }
 
   findAll() {
-   return this.propRepository.find();
+    return this.propRepository.find();
   }
 
   findOne(slug: string) {
     return this.propRepository.findOneOrFail({
       where: {
-        slug
-      }
+        slug,
+      },
     });
   }
 
   update(slug: string, updatePropDto: UpdatePropDto) {
-    return this.propRepository.update(
-      slug,
-      updatePropDto
-    )
+    return this.propRepository.update(slug, updatePropDto);
   }
 
   remove(slug: string) {

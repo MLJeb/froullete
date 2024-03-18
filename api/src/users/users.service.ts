@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CREDITS_REWARD, REWARD_COOLDOWN_IN_MS, User } from './entities/user.entity';
+import {
+  CREDITS_REWARD,
+  REWARD_COOLDOWN_IN_MS,
+  User,
+} from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-
 
 @Injectable()
 export class UsersService {
@@ -18,21 +21,18 @@ export class UsersService {
   }
 
   findAll() {
-   return this.userRepository.find();
+    return this.userRepository.find();
   }
 
-  async findOne(id: number) : Promise<User> {
+  async findOne(id: number): Promise<User> {
     return await this.userRepository.findOneOrFail({
-      where: {id},
-      relations: ['propBaskets.prop']
+      where: { id },
+      relations: ['propBaskets.prop'],
     });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userRepository.update(
-      id,
-      updateUserDto
-    )
+    return this.userRepository.update(id, updateUserDto);
   }
 
   remove(id: number) {
@@ -41,15 +41,15 @@ export class UsersService {
 
   async getCreditReward(id: number) {
     const user = await this.userRepository.findOneOrFail({
-      where: {id}
+      where: { id },
     });
-    const nowTime = new Date().getTime(); 
-    if( nowTime - user.lastCreditReward < REWARD_COOLDOWN_IN_MS ){
-      return false;
+    const nowTime = new Date().getTime();
+    if (nowTime - user.lastCreditReward < REWARD_COOLDOWN_IN_MS) {
+      return {'message': `You already get a credit, try again in ${Math.trunc(user.nextRewardIn)} seconds`};
     }
     user.lastCreditReward = nowTime;
     user.credits += CREDITS_REWARD;
     await this.userRepository.save(user);
-    return true;
+    return {'message': 'You were rewarded with a credit'};
   }
 }

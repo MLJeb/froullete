@@ -12,8 +12,8 @@ import { PropBasket } from 'src/users/entities/PropBasket.entity';
     TypeOrmModule.forFeature([Roullete]),
     TypeOrmModule.forFeature([RoulleteToProp]),
     TypeOrmModule.forFeature([User]),
-    TypeOrmModule.forFeature([PropBasket])
-  ], 
+    TypeOrmModule.forFeature([PropBasket]),
+  ],
   controllers: [RoulletesController],
   providers: [RoulletesService],
 })

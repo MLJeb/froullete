@@ -9,16 +9,16 @@ import getCustomOptions from './config';
 import { RoulletesModule } from './roulettes/roulletes.module';
 import { UsersModule } from './users/users.module';
 
-const options =  getCustomOptions();
+const options = getCustomOptions();
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: options.envFilePath
+      envFilePath: options.envFilePath,
     }),
     TypeOrmModule.forRoot(options.database),
     PropsModule,
     RoulletesModule,
-    UsersModule
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,9 +1,9 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
 export class CreateRoulleteDto {
-    @IsString()
-    slug: string;
+  @IsString()
+  slug: string;
 
-    @IsString()
-    readableName: string;
+  @IsString()
+  readableName: string;
 }

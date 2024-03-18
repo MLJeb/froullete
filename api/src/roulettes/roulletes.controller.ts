@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
 import { RoulletesService } from './roulletes.service';
 import { CreateRoulleteDto } from './dto/create-roullete.dto';
 import { UpdateRoulleteDto } from './dto/update-roullete.dto';
@@ -25,7 +35,10 @@ export class RoulletesController {
   }
 
   @Patch(':slug')
-  update(@Param('slug') slug: string, @Body() updateRoulleteDto: UpdateRoulleteDto) {
+  update(
+    @Param('slug') slug: string,
+    @Body() updateRoulleteDto: UpdateRoulleteDto,
+  ) {
     return this.RoulletesService.update(slug, updateRoulleteDto);
   }
 
