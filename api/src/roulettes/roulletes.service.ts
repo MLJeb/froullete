@@ -29,7 +29,7 @@ export class RoulletesService {
   }
 
   findAll() {
-    return this.RoulleteRepository.find();
+    return this.RoulleteRepository.find({relations: ['roulleteToProps.prop']});
   }
 
   async findOne(slug: string) {
@@ -50,7 +50,10 @@ export class RoulletesService {
     return this.RoulleteRepository.delete(slug);
   }
 
-  addProp(addPropToRoulleteDTO: AddPropToRoulleteDTO) {
+  addProp(
+    addPropToRoulleteDTO: AddPropToRoulleteDTO
+  ) {
+    console.log(AddPropToRoulleteDTO);
     return this.rtpRepository.insert(addPropToRoulleteDTO);
   }
 

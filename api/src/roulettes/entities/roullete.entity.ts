@@ -12,7 +12,7 @@ export class Roullete {
   @Column()
   readableName: string;
 
-  @OneToMany(() => RoulleteToProp, (roulleteToProp) => roulleteToProp.roullete)
+  @OneToMany(() => RoulleteToProp, (roulleteToProp) => roulleteToProp.roullete, { onDelete: 'CASCADE' })
   @Exclude()
   public roulleteToProps: RoulleteToProp[];
 
