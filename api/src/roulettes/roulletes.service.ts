@@ -35,10 +35,6 @@ export class RoulletesService {
     });
   }
 
-  addPropToRoullete(addPropToRoulleteDTO: AddPropToRoulleteDTO) {
-    return this.RTPRepository.insert(addPropToRoulleteDTO);
-  }
-
   update(slug: string, updateRoulleteDto: UpdateRoulleteDto) {
     return this.RoulleteRepository.update(
       slug,
@@ -48,5 +44,13 @@ export class RoulletesService {
 
   remove(slug: string) {
     return this.RoulleteRepository.delete(slug);
+  }
+
+  addProp(addPropToRoulleteDTO: AddPropToRoulleteDTO) {
+    return this.RTPRepository.insert(addPropToRoulleteDTO);
+  }
+
+  removeProp(rtpID: number){
+    return this.RTPRepository.delete(rtpID);
   }
 }

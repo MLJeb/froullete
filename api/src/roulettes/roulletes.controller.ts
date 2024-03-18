@@ -20,8 +20,8 @@ export class RoulletesController {
   }
 
   @Get(':slug')
-  async findOne(@Param('slug') slug: string) {
-    return await this.RoulletesService.findOne(slug);
+  findOne(@Param('slug') slug: string) {
+    return this.RoulletesService.findOne(slug);
   }
 
   @Patch(':slug')
@@ -36,6 +36,11 @@ export class RoulletesController {
 
   @Post('addProp/')
   addProp(@Body() addPropToRoulleteDTO: AddPropToRoulleteDTO) {
-    return this.RoulletesService.addPropToRoullete(addPropToRoulleteDTO);
+    return this.RoulletesService.addProp(addPropToRoulleteDTO);
+  }
+
+  @Delete('removeProp/:rtpID')
+  removeRoulleteToProp(@Param('rtpID') rtpID: number) {
+    return this.RoulletesService.removeProp(rtpID);
   }
 }
