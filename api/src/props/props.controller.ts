@@ -17,18 +17,18 @@ export class PropsController {
     return this.propsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.propsService.findOne(+id);
+  @Get(':slug')
+  findOne(@Param('slug') slug: string) {
+    return this.propsService.findOne(slug);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePropDto: UpdatePropDto) {
-    return this.propsService.update(+id, updatePropDto);
+  @Patch(':slug')
+  update(@Param('slug') slug: string, @Body() updatePropDto: UpdatePropDto) {
+    return this.propsService.update(slug, updatePropDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.propsService.remove(+id);
+  @Delete(':slug')
+  remove(@Param('slug') slug: string) {
+    return this.propsService.remove(slug);
   }
 }

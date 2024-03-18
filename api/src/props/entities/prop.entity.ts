@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity({ name: 'props' })
 export class Prop {
-    @PrimaryColumn()
+    @PrimaryColumn({ unique: true })
     slug: string;
     
     @Column()

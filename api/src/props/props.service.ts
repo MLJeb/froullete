@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Prop } from './entities/prop.entity';
 import { CreatePropDto } from './dto/create-prop.dto';
 import { UpdatePropDto } from './dto/update-prop.dto';
 
 @Injectable()
 export class PropsService {
-  create(createPropDto: CreatePropDto) {
-    return 'This action adds a new prop';
+  constructor(
+    @InjectRepository(Prop)
+    private propRepository: Repository<Prop>,
+  ) {}
+
+  async create(createPropDto: CreatePropDto) {
+    return await this.propRepository.insert(createPropDto);
   }
 
   findAll() {
-    return `This action returns all props`;
+   return this.propRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} prop`;
+  findOne(slug: string) {
+    return this.propRepository.findOneOrFail({
+      where: {
+        slug
+      }
+    });
   }
 
-  update(id: number, updatePropDto: UpdatePropDto) {
-    return `This action updates a #${id} prop`;
+  update(slug: string, updatePropDto: UpdatePropDto) {
+    return this.propRepository.update(
+      slug,
+      updatePropDto
+    )
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} prop`;
+  remove(slug: string) {
+    return this.propRepository.delete(slug);
   }
 }

@@ -5,7 +5,6 @@ const path = require('path')
 const envFilePath = path.resolve(__dirname, '../../.env');
 require('dotenv').config({ path: envFilePath });
 
-console.log(path.resolve(__dirname, '../dist/db/*js'));
 export default new DataSource({
     migrations: [path.resolve(__dirname, '../dist/db/*js')],
     migrationsTableName: 'migrations',

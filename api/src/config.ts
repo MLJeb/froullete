@@ -3,7 +3,8 @@ import { DataSourceOptions } from "typeorm";
 
 // env path set to project's root folder path
 const path = require('path')
-const envFilePath = path.resolve(__dirname, '../../.env')
+const envFilePath = path.resolve(__dirname, '../../../.env')
+console.log(envFilePath)
 require('dotenv').config({path: envFilePath});
 
 export function getEnvValue(key: string, throwOnMissing = true): string {
