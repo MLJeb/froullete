@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Wheel } from 'react-custom-roulette'
 
-const API_URL = 'http://api:3001' 
+const API_URL = 'http://127.0.0.1:3001' 
 
 export default () => {
   const [mustSpin, setMustSpin] = useState(false);
   const [data, setData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("ruleta-a");
   const [user, setUser] = useState<any>({});
-  const [priceNumber, setPriceNumber] = useState(0);
+  const [prizeNumber, setPrizeNumber] = useState(0);
   const [price, setPrice] = useState(0);
   const queryParameters = new URLSearchParams(window.location.search)
   const userId = queryParameters.get("userId") || 1
@@ -55,17 +55,19 @@ export default () => {
 
   const handleSpinClick = () => {
     if (!mustSpin) {
+     
       fetch(`${API_URL}/roulletes/${selectedOption}/play/${userId}/`)
       .then((data:any) => {
         data.json().then((res:any) => { 
           console.log(res);
           alert(res.message ?? "an error has ocurred")
-          if(res.index) setPriceNumber(res.index);
+          if(res.index) setPrizeNumber(res.index);
           loadUser();
+          setTimeout(() =>  setMustSpin(true), 200)
         });
       })
      
-      setMustSpin(true);
+     
     }
   }
 
@@ -104,9 +106,9 @@ export default () => {
               <p>Precio de la ruleta: {price}</p>
               <Wheel
                 mustStartSpinning={mustSpin}
-                priceNumber={priceNumber}
+                prizeNumber={prizeNumber}
                 data={data}
-                spinDuration={5}
+                spinDuration={1}
                 onStopSpinning={() => {
                   setMustSpin(false);
                 }}

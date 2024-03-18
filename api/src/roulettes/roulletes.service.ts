@@ -85,7 +85,8 @@ export class RoulletesService {
       weights.push(rtp.weigth);
     });
 
-    const prop = weightedRandom(items, weights).item as Prop;
+    const wrapper = weightedRandom(items, weights);
+    const prop = wrapper.item as Prop;
 
     user.credits -= roullete.price;
     await this.userRepository.save(user);
@@ -103,6 +104,7 @@ export class RoulletesService {
       return {
         message: `Congrats You have won a ${prop.readableName}`,
         result: result,
+        index: wrapper.index
       };
     }
     const basket = await this.propBasketRepository.insert({
@@ -113,6 +115,7 @@ export class RoulletesService {
     return {
       message: `Congrats You have won a ${prop.readableName}`,
       result: basket,
+      index: wrapper.index
     };
   }
 }

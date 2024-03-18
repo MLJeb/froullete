@@ -15,6 +15,6 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new EntityNotFoundExceptionFilter());
-  await app.listen(3001);
+  await app.listen(3000);
 }
 bootstrap();
