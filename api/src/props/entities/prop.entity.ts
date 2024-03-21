@@ -13,7 +13,7 @@ export class Prop {
   @Column()
   colour: string;
 
-  @OneToMany(() => RoulleteToProp, (roulleteToProp) => roulleteToProp.prop)
+  @OneToMany(() => RoulleteToProp, (roulleteToProp) => roulleteToProp.prop, { onDelete: 'CASCADE' })
   public roulleteToProps: Promise<RoulleteToProp[]>;
 
   @OneToMany(() => PropBasket, (basket) => basket.prop)

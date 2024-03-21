@@ -29,6 +29,13 @@ export class RoulletesController {
     return this.RoulletesService.findAll();
   }
 
+  @Post('add-prop')
+  addProp(
+    @Body() addPropToRoulleteDTO: any,
+    ) {
+    return this.RoulletesService.addProp(addPropToRoulleteDTO);
+  }
+
   @Get(':slug')
   findOne(@Param('slug') slug: string) {
     return this.RoulletesService.findOne(slug);
@@ -47,10 +54,7 @@ export class RoulletesController {
     return this.RoulletesService.remove(slug);
   }
 
-  @Post('addProp/')
-  addProp(@Body() addPropToRoulleteDTO: AddPropToRoulleteDTO) {
-    return this.RoulletesService.addProp(addPropToRoulleteDTO);
-  }
+ 
 
   @Delete('removeProp/:rtpID')
   removeRoulleteToProp(@Param('rtpID') rtpID: number) {
